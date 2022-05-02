@@ -1,0 +1,5 @@
+tf import --var-file="terraform.tfvars" "module.vpc.aws_route_table.private[2]" rtb-03beedf75a1cb3686
+tf import --var-file="terraform.tfvars" "module.vpc.aws_route_table_association.private[2]" subnet-050ba9668239ae1bb/rtb-03beedf75a1cb3686
+tf import --var-file="terraform.tfvars" "module.vpc.aws_subnet.private[2]" subnet-050ba9668239ae1bb
+tf import --var-file="terraform.tfvars" "module.vpc.aws_route_table_association.public[2]" subnet-0c61dfd837cc9a77c/rtb-0a5579daa8e19a6e6
+tf import --var-file="terraform.tfvars" "module.vpc.aws_subnet.public[2]" subnet-0c61dfd837cc9a77c
