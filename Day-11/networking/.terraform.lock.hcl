@@ -21,7 +21,8 @@ provider "registry.terraform.io/hashicorp/aws" {
 }
 
 provider "registry.terraform.io/hashicorp/consul" {
-  version = "2.15.1"
+  version     = "2.15.1"
+  constraints = "~> 2.0"
   hashes = [
     "h1:PexyQBRLDA+SR+sWlzYBZswry5O5h/tTfj87CaECtLc=",
     "zh:1806830a3cf103e65e772a7d28fd4df2788c29a029fb2def1326bc777ad107ed",
