@@ -54,24 +54,22 @@ pipeline {
         }
         stage('Networking Apply') {
             steps {
-                dir('Day-12/networking/') {
-                    script {
-                        def apply = false
-                        try {
-                            input message: 'confirm apply', ok: "Apply Config"
-                            apply = true
-                        } catch (e) {
-                            apply = false
-                            dir('Day-12/networking/') {
-                                sh "terraform destroy -auto-approve"
-                            }
-                            currentBuild.result = 'UNSTABLE'
+                script {
+                    def apply = false
+                    try {
+                        input message: 'confirm apply', ok: "Apply Config"
+                        apply = true
+                    } catch (e) {
+                        apply = false
+                        dir('Day-12/networking/') {
+                            sh "terraform destroy -auto-approve"
                         }
-                        if(apply) {
-                            dir('Day-12/networking/') {
-                                unstash "terraform-networking-plan"
-                                sh "terraform apply terraform-network.tfplan"
-                            }
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                    if(apply) {
+                        dir('Day-12/networking/') {
+                            unstash "terraform-networking-plan"
+                            sh "terraform apply terraform-network.tfplan"
                         }
                     }
                 }
