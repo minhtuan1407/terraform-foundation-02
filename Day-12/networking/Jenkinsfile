@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'built-in' }
     tools {
-        "org.jenkinsci.plugins.terraform.TerraformInstallation" "Terraform"
+        "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform"
     }
     options {
         ansiColor('vga')
@@ -11,15 +11,15 @@ pipeline {
         string(name: 'WORKSPACE', defaultValue: 'development')
     }
     environment {
-        TF_HOME = tool('Terraform')
-        TF_INPUT = '0'
-        TF_IN_AUTOMATION = 'TRUE'
-        TF_VAR_consul_address = '192.168.1.10'
-        TF_LOG = 'WARN'
+        TF_HOME = tool('terraform')
+        TF_INPUT = "0"
+        TF_IN_AUTOMATION = "TRUE"
+        TF_VAR_consul_address = "192.168.1.10"
+        TF_LOG = "WARN"
         CONSUL_HTTP_TOKEN = credentials('networking-consul-token')
         AWS_ACCESS_KEY_ID = credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
-        PATH = '$TF_HOME:$PATH'
+        PATH = "$TF_HOME:$PATH"
     }
     stages {
         stage('Networking Init') {
