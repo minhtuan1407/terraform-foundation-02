@@ -21,7 +21,6 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  profile = "minhtuan1407-us-east-1"
 }
 
 provider "consul" {
