@@ -19,7 +19,7 @@ pipeline {
         CONSUL_HTTP_TOKEN = credentials('networking-consul-token')
         AWS_ACCESS_KEY_ID = credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
-        PATH = '$TF_HOME/terraform'
+        PATH = '$TF_HOME:$PATH'
     }
     stages {
         stage('Networking Init') {
