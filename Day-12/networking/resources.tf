@@ -21,6 +21,7 @@ terraform {
 
 provider "aws" {
   region  = var.region
+  profile = "minhtuan1407-us-east-1"
 }
 
 provider "consul" {
@@ -42,7 +43,7 @@ data "consul_keys" "networking" {
 
   key {
     name = "common_tags"
-    path = "networking/configuration/globo-primary/common-tags"
+    path = "networking/configuration/globo-primary/common_tags"
   }
 }
 

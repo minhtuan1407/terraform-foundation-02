@@ -64,7 +64,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.14.0"
 
-  name            = "globo-primary"
+  name            = "globo-primary-${terraform.workspace}"
   cidr            = local.cidr_block
   azs             = slice(data.aws_availability_zones.available.names, 0, local.subnet_count)
   private_subnets = data.template_file.private_cidrsubnet.*.rendered

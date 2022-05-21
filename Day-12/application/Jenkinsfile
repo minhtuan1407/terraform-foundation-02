@@ -7,7 +7,7 @@ pipeline {
         ansiColor('vga')
     }
     parameters {
-        string(name: 'CONSUL_STATE_PATH', defaultValue: 'networking/state/globo-primary')
+        string(name: 'CONSUL_STATE_PATH', defaultValue: 'applications/state/globo-primary')
         string(name: 'WORKSPACE', defaultValue: 'development')
     }
     environment {
@@ -16,43 +16,43 @@ pipeline {
         TF_IN_AUTOMATION = 'TRUE'
         TF_VAR_consul_address = '192.168.1.10'
         TF_LOG = 'WARN'
-        CONSULE_HTTP_TOKEN = credentials('networking-consul-token')
+        CONSULE_HTTP_TOKEN = credentials('applications-consul-token')
         AWS_ACCESS_KEY_ID = credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
         PATH = '$TF_HOME:$PATH'
     }
     stages {
-        stage('Networking Init') {
+        stage('Application Init') {
             steps {
-                dir('Day-12/networking/') {
+                dir('Day-12/application/') {
                     sh "terraform --version"
                     sh "terraform init --backend-config='path=${params.CONSUL_STATE_PATH}'"
                 }
             }
         }
-        stage('Networking Validate') {
+        stage('Application Validate') {
             steps {
-                dir('Day-12/networking/') {
+                dir('Day-12/application/') {
                     sh "terraform validate"
                 }
             }
         }
-        stage('Networking Plan') {
+        stage('Application Plan') {
             steps {
-                dir('Day-12/networking/') {
+                dir('Day-12/application/') {
                     script {
                         try {
                             sh "terraform workspace new ${params.WORKSPACE}"
                         } catch (e) {                                                                                                                                   
                             sh "terraform workspace select ${params.WORKSPACE}"
                         }
-                        sh "terraform plan --out terraform-network.tfplan; echo \$? > status"
-                        stash name: "terraform-networking-plan", include: "terraform-network.tfplan"
+                        sh "terraform plan --out terraform-application.tfplan; echo \$? > status"
+                        stash name: "terraform-application-plan", include: "terraform-application.tfplan"
                     }
                 }
             }
         }
-        stage('Networking Apply') {
+        stage('Application Apply') {
             steps {
                 dir('Day-12/networking/') {
                     script {
@@ -62,15 +62,15 @@ pipeline {
                             apply = true
                         } catch (e) {
                             apply = false
-                            dir('Day-12/networking/') {
+                            dir('Day-12/application/') {
                                 sh "terraform destroy -auto-approve"
                             }
                             currentBuild.result = 'UNSTABLE'
                         }
                         if(apply) {
-                            dir('Day-12/networking/') {
-                                unstash "terraform-networking-plan"
-                                sh "terraform apply terraform-network.tfplan"
+                            dir('Day-12/application/') {
+                                unstash "terraform-application-plan"
+                                sh "terraform apply -auto-approve"
                             }
                         }
                     }
