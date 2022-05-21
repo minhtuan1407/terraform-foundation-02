@@ -80,6 +80,10 @@ pipeline {
     }
     post {
         always {
+            script {
+                if (getContext(hudson.FilePath)) {
+                    deleteDir()
+                }
             // notifyEvents message: '''Tuan is testing
             // Build <a href="$PROJECT_URL">$PROJECT_NAME</a>
             // Build Number <a href="$BUILD_URL">$BUILD_NUMBER</a> result with status: <b>$BUILD_STATUS</b>
