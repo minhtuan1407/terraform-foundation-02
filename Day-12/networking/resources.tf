@@ -42,7 +42,7 @@ data "consul_keys" "networking" {
   }
 
   key {
-    name = "common_tags"
+    name = "common-tags"
     path = "networking/configuration/globo-primary/common-tags"
   }
 }
