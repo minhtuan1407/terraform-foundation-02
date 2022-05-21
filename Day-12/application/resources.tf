@@ -79,7 +79,7 @@ resource "aws_launch_configuration" "web_lc" {
 # Networking
 resource "aws_elb" "web_elb" {
   name    = "dtt-webapp-elb-${terraform.workspace}"
-  subnets = data.terraform_remote_state.networking.outputs.public_subnet
+  subnets = data.terraform_remote_state.networking.outputs.public_subnets
 
   listener {
     instance_port     = 80
@@ -105,7 +105,7 @@ resource "aws_autoscaling_group" "webapp_asg" {
   lifecycle {
     create_before_destroy = true
   }
-  vpc_zone_identifier   = data.terraform_remote_state.networking.outputs.public_subnet
+  vpc_zone_identifier   = data.terraform_remote_state.networking.outputs.public_subnets
   name                  = "dtt_webapp_asg-${terraform.workspace}"
   max_size              = local.asg_max_size
   min_size              = local.asg_min_size
@@ -180,7 +180,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
 
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "${terraform.workspace}-dtt-db-subnet-group"
-  subnet_ids = data.terraform_remote_state.networking.outputs.private_subnet
+  subnet_ids = data.terraform_remote_state.networking.outputs.private_subnets
 }
 
 resource "aws_db_instance" "rds" {

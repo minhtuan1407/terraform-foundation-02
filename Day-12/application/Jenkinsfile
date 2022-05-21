@@ -54,7 +54,7 @@ pipeline {
         }
         stage('Application Apply') {
             steps {
-                dir('Day-12/networking/') {
+                dir('Day-12/application/') {
                     script {
                         def apply = false
                         try {
