@@ -16,7 +16,7 @@ pipeline {
         TF_IN_AUTOMATION = 'TRUE'
         TF_VAR_consul_address = '192.168.1.10'
         TF_LOG = 'WARN'
-        CONSULE_HTTP_TOKEN = credentials('networking-consul-token')
+        CONSUL_HTTP_TOKEN = credentials('networking-consul-token')
         AWS_ACCESS_KEY_ID = credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
         PATH = '$TF_HOME:$PATH'
