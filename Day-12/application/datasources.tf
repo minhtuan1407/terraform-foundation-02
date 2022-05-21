@@ -24,8 +24,8 @@ data "consul_keys" "applications" {
   }
 
   key {
-    name = "common-tags"
-    path = "networking/configuration/globo-primary/common-tags"
+    name = "common_tags"
+    path = "networking/configuration/globo-primary/common_tags"
   }
 }
 
